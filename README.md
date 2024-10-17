@@ -1,8 +1,8 @@
 # FIBSEM_Maestro
 ## Time to FIBSEM_Maestro launch:
 <table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td align="center"><img src="https://i.countdownmail.com/3mm90t.gif" style="display:inline-block!important;width:241px;" border="0" alt="countdownmail.com"/></td></tr></tbody></table> 
-_FIBSEM_Maestro will be available to users on January 1, 2025._
-<br /> 
+FIBSEM_Maestro will be available to users on January 1, 2025
+<br /> <br /> 
 Software for (cryo/RT) volume-EM acquisition. It allows to acquire the big volume in constant high quality.  
 
 Key features:
