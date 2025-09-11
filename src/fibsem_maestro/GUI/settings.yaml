@@ -1,0 +1,485 @@
+acquisition:
+  criterion_name: image_acquisition
+  extended_resolution: true
+  image_name: image_acquisition
+  imaging_enabled: true
+  resolution_threshold: 1
+  sputter: false
+  sputter_grid: 1
+  wd_correction: 1.0e-07
+  y_correction: -7.812856265067174e-08
+autofunction:
+- autofunction: LineAutoFunction
+  criterion_name: working_distance - line
+  delta_x: 0
+  execute_resolution: 0
+  execute_slices: 1
+  forbidden_sections: -1
+  image_name: working_distance - line
+  keep_time: 10
+  mask_name: none
+  max_attempts: 4000000000000000000
+  name: working_distance - line
+  pre_imaging_delay: 0
+  stripes_separate_value: 50
+  sweeping_range:
+  - -1.0e-05
+  - 1.0e-05
+  sweeping_steps: 10
+  sweeping_strategy: BasicSweeping
+  sweeping_total_cycles: 3
+  variable: electron_beam.working_distance
+- autofunction: AutoFunction
+  criterion_name: working_distance - image
+  delta_x: 0
+  execute_resolution: 0
+  execute_slices: 0
+  image_name: working_distance - image
+  mask_name: none
+  max_attempts: 8
+  name: working_distance - image
+  sweeping_range:
+  - -5.0e-06
+  - 5.0e-06
+  sweeping_steps: 10
+  sweeping_strategy: BasicSweeping
+  sweeping_total_cycles: 1
+  variable: electron_beam.working_distance
+- autofunction: StepAutoFunction
+  criterion_name: working_distance - poke
+  delta_x: 0
+  execute_resolution: 0
+  execute_slices: 0
+  image_name: working_distance - poke
+  keep_trying: false
+  mask_name: none
+  max_attempts: 8
+  min_diff: 0.005
+  name: working_distance - poke
+  sweeping_range:
+  - -7.0e-07
+  - 7.0e-07
+  sweeping_steps: 2
+  sweeping_strategy: BasicInterleavedSweeping
+  sweeping_total_cycles: 1
+  variable: electron_beam.working_distance
+- autofunction: StepAutoFunction
+  criterion_name: stigX - poke
+  delta_x: 0
+  execute_resolution: 0
+  execute_slices: 0
+  image_name: stigX - poke
+  keep_trying: false
+  mask_name: none
+  max_attempts: 8
+  min_diff: 0.005
+  name: stigX - poke
+  sweeping_range:
+  - -0.035
+  - 0.035
+  sweeping_steps: 2
+  sweeping_strategy: BasicInterleavedSweeping
+  sweeping_total_cycles: 1
+  variable: electron_beam.stigmator_x
+- autofunction: StepAutoFunction
+  criterion_name: stigY - poke
+  delta_x: 0
+  execute_resolution: 0
+  execute_slices: 0
+  image_name: stigY - poke
+  keep_trying: false
+  mask_name: none
+  max_attempts: 8
+  min_diff: 0.005
+  name: stigY - poke
+  sweeping_range:
+  - -0.035
+  - 0.035
+  sweeping_steps: 2
+  sweeping_strategy: BasicInterleavedSweeping
+  sweeping_total_cycles: 1
+  variable: electron_beam.stigmator_y
+- autofunction: StepAutoFunction
+  criterion_name: laX - poke
+  delta_x: 0
+  execute_resolution: 0
+  execute_slices: 0
+  image_name: laX - poke
+  keep_trying: false
+  mask_name: none
+  max_attempts: 8
+  min_diff: 0.005
+  name: laX - poke
+  sweeping_range: &id001
+  - -2.0e-05
+  - 2.0e-05
+  sweeping_steps: 2
+  sweeping_strategy: BasicInterleavedSweeping
+  sweeping_total_cycles: 1
+  variable: electron_beam.lens_alignment_x
+- autofunction: StepAutoFunction
+  criterion_name: laY - poke
+  delta_x: 0
+  execute_resolution: 0
+  execute_slices: 0
+  image_name: laY - poke
+  keep_trying: false
+  mask_name: none
+  max_attempts: 8
+  min_diff: 0.005
+  name: laY - poke
+  sweeping_range: *id001
+  sweeping_steps: 2
+  sweeping_strategy: BasicInterleavedSweeping
+  sweeping_total_cycles: 1
+  variable: electron_beam.lens_alignment_y
+- autofunction: ManufacturerAutoFunction
+  criterion_name: working_distance - TFS
+  delta_x: 0
+  execute_resolution: 0
+  execute_slices: 0
+  image_name: working_distance - TFS
+  mask_name: none
+  max_attempts: 8
+  name: working_distance - TFS
+  variable: electron_beam.working_distance
+- autofunction: ManufacturerAutoFunction
+  criterion_name: lens_align - TFS
+  delta_x: 0
+  execute_resolution: 0
+  execute_slices: 20
+  image_name: lens_align - TFS
+  mask_name: none
+  max_attempts: 8
+  name: lens_align - TFS
+  variable: electron_beam.lens_alignment
+- autofunction: ManufacturerAutoFunction
+  criterion_name: stigmator - TFS
+  delta_x: 0
+  execute_resolution: 0
+  execute_slices: 0
+  image_name: stigmator - TFS
+  mask_name: none
+  max_attempts: 8
+  name: stigmator - TFS
+  variable: electron_beam.stigmator
+- autofunction: ManufacturerAutoFunction
+  criterion_name: source_tilt - TFS
+  delta_x: 0
+  execute_resolution: 0
+  execute_slices: 20
+  image_name: source_tilt - TFS
+  mask_name: none
+  max_attempts: 8
+  name: source_tilt - TFS
+  variable: electron_beam.source_tilt
+contrast_brightness:
+  acb_area:
+    height: 1
+    width: 1
+    x: 0
+    y: 0
+  acb_enabled: true
+  allowed_minimal_band: 0.5
+  allowed_saturation: 0.01
+  mask_name: none
+  p_brightness: 10
+  p_decrease_contrast: 10
+  p_increase_contrast: 10
+criterion_calculation:
+- border: 0.2
+  criterion: frc_criterion
+  final_regions_resolution: min
+  final_resolution: min
+  mask_name: none
+  name: image_acquisition
+  tile_size: 1.5e-06
+- border: 0
+  criterion: bandpass_var_criterion
+  detail:
+  - 5.0e-08
+  - 1.5e-07
+  final_regions_resolution: min
+  final_resolution: min
+  mask_name: none
+  name: working_distance - line
+  tile_size: 0
+- border: 0
+  criterion: bandpass_criterion
+  detail:
+  - 2.0e-08
+  - 1.5e-07
+  final_regions_resolution: min
+  final_resolution: min
+  mask_name: none
+  name: working_distance - image
+  tile_size: 0
+- border: 0
+  criterion: bandpass_criterion
+  detail:
+  - 8.0e-08
+  - 1.5e-07
+  final_regions_resolution: min
+  final_resolution: min
+  mask_name: none
+  name: stigX - poke
+  tile_size: 0
+- border: 0
+  criterion: bandpass_criterion
+  detail:
+  - 8.0e-08
+  - 1.5e-07
+  final_regions_resolution: min
+  final_resolution: min
+  mask_name: none
+  name: stigY - poke
+  tile_size: 0
+- border: 0
+  criterion: bandpass_criterion
+  detail:
+  - 8.0e-08
+  - 1.5e-07
+  final_regions_resolution: min
+  final_resolution: min
+  mask_name: none
+  name: laX - poke
+  tile_size: 0
+- border: 0
+  criterion: bandpass_criterion
+  detail:
+  - 8.0e-08
+  - 1.5e-07
+  final_regions_resolution: min
+  final_resolution: min
+  mask_name: none
+  name: laY - poke
+  tile_size: 0
+- border: 0
+  criterion: bandpass_criterion
+  detail:
+  - 8.0e-08
+  - 1.5e-07
+  final_regions_resolution: min
+  final_resolution: min
+  mask_name: none
+  name: working_distance - poke
+  tile_size: 0
+- name: working_distance - TFS
+- name: lens_align - TFS
+- name: stigmator - TFS
+- name: source_tilt - TFS
+dirs:
+  log: C:/Users/User/PycharmProjects/FIBSEM_Maestro/src/fibsem_maestro/GUI\logs
+  output_images: C:/Users/User/PycharmProjects/FIBSEM_Maestro/src/fibsem_maestro/GUI\images
+  project: C:/Users/User/PycharmProjects/FIBSEM_Maestro/src/fibsem_maestro/GUI
+  template_matching: C:/Users/User/PycharmProjects/FIBSEM_Maestro/src/fibsem_maestro/GUI\template_matching
+drift_correction:
+  blur: 3
+  correction_margin: 5.0e-06
+  driftcorr_areas:
+  - height: 0.03595041322314049
+    width: 0.030358126721763086
+    x: 0.013057851239669422
+    y: 0.09024793388429753
+  - height: 0.030330578512396695
+    width: 0.029917355371900826
+    x: 0.012341597796143251
+    y: 0.17206611570247934
+  min_confidence: 0.8
+  rescan: 1000
+  type: template_matching
+email:
+  password_file: email_password.txt
+  receiver: pavel.krep@gmail.com
+  sender: pavel.emcf@gmail.com
+general:
+  additive_beam_shift:
+  - 0
+  - 0
+  error_behaviour:
+  - email
+  - stop
+  library: autoscript
+  log_level: 20
+  sem_settings_file: microscope_settings.yaml
+  variables_to_save:
+  - position
+  - electron_beam.working_distance
+  - electron_beam.stigmator
+  - electron_beam.lens_alignment
+  - electron_beam.beam_shift
+  - electron_beam.detector_contrast
+  - electron_beam.detector_brightness
+  - electron_beam.dwell_time
+image:
+- bit_depth: 8
+  field_of_view:
+  - 0.0001
+  - 0.0001
+  images_line_integration: 8
+  name: driftcorr
+  pixel_size: 2.0e-08
+- bit_depth: 16
+  dwell: 2.5e-08
+  field_of_view:
+  - 2.2687792968749984e-05
+  - 1.5125195312499989e-05
+  images_line_integration: 64
+  imaging_area:
+    height: 0
+    width: 0
+    x: 0
+    y: 0
+  name: image_acquisition
+  pixel_size: 1.25e-09
+- bit_depth: 8
+  dwell: 2.5e-08
+  field_of_view:
+  - 3.19e-05
+  - 2.12666666667e-05
+  images_line_integration: 255
+  imaging_area:
+    height: 0.33509060955518943
+    width: 0.4702606934953176
+    x: 0.23234624145785876
+    y: 0.614827018121911
+  name: working_distance - line
+  resolution:
+  - 6144.0
+  - 4096.0
+- bit_depth: 8
+  dwell: 5.0e-06
+  images_line_integration: 1
+  imaging_area:
+    height: 0.286770140428677
+    width: 0.3346905537459283
+    x: 0.2899022801302932
+    y: 0.5402808573540281
+  name: working_distance - image
+  pixel_size: 1.0e-08
+- bit_depth: 8
+  dwell: 5.0e-06
+  images_line_integration: 1
+  imaging_area: &id003
+    height: 0.0
+    width: 0.0
+    x: 0.0
+    y: 0.0
+  name: stigX - poke
+  pixel_size: 1.0e-08
+- bit_depth: 8
+  dwell: 3.0e-06
+  images_line_integration: 1
+  imaging_area: &id002
+    height: 0.37423312883435583
+    width: 0.4603434178250204
+    x: 0.34832379394930496
+    y: 0.32077125328659073
+  name: stigY - poke
+  pixel_size: 2.5e-09
+- bit_depth: 8
+  dwell: 5.0e-06
+  images_line_integration: 1
+  imaging_area: *id002
+  name: laX - poke
+  pixel_size: 1.0e-08
+- bit_depth: 8
+  dwell: 5.0e-06
+  images_line_integration: 1
+  imaging_area: *id002
+  name: laY - poke
+  pixel_size: 1.0e-08
+- bit_depth: 8
+  dwell: 2.0e-07
+  images_line_integration: 1
+  imaging_area: *id003
+  name: working_distance - poke
+  pixel_size: 5.0e-09
+- brightness: 36.87
+  contrast: 63.85
+  dwell: 1.0e-07
+  images_line_integration: 1
+  imaging_area: &id004
+    height: 0.315185546875
+    width: 0.19775390625
+    x: 0.7027994791666666
+    y: 0.432373046875
+  name: working_distance - TFS
+- brightness: 36.87
+  contrast: 63.85
+  dwell: 5.0e-07
+  images_line_integration: 1
+  imaging_area:
+    height: 0.5020939972080037
+    width: 0.3945260347129506
+    x: 0.29572763684913217
+    y: 0.329455560725919
+  name: lens_align - TFS
+- brightness: 36.87
+  contrast: 63.85
+  dwell: 1.0e-07
+  images_line_integration: 1
+  imaging_area: *id004
+  name: stigmator - TFS
+- brightness: 36.87
+  contrast: 63.85
+  dwell: 5.0e-07
+  images_line_integration: 1
+  imaging_area: *id004
+  name: source_tilt - TFS
+mask:
+- downsampling_factor: 4
+  fill_holes: true
+  iterative_training: false
+  mask_image_li: 32
+  min_area: 100
+  min_fraction: 0.1
+  model_path: /home/pavelkrep/data/deepmib_test/seg_exported
+  name: mask
+  patch_size:
+  - 128
+  - 128
+  threshold: 0.5
+  update_mask: true
+microscope:
+  beam_shift_tolerance: 5.0e-08
+  ip_address: 147.251.159.93
+  relative_beam_shift_to_stage:
+  - 1
+  - 1
+  stage_tolerance: 1e-7
+  stage_trials: 3
+milling:
+  blur: 2
+  direction: 1
+  enabled: true
+  fiducial_area:
+    height: 0.210693359375
+    width: 0.14485677083333334
+    x: 0.7802734375
+    y: 0.405517578125
+  fiducial_margin: 3.0e-06
+  fiducial_rescan: 3
+  fiducial_update: 0.8
+  milling_area:
+    height: 0.306884765625
+    width: 0.5911458333333334
+    x: 0.087890625
+    y: 0.58740234375
+  milling_depth: 1.0e-05
+  minimal_similarity: 0.75
+  pattern_file: Si-ccs
+  relocate_pattern: 0
+  milling_progress: true
+  scanning_frequency: 1
+  settings_file: fib_microscope_settings.yaml
+  slice_distance: 1.0e-07
+  upscale: 4
+  full_image_scans: 2
+  fiducial_scans: 2
+  variables_to_save:
+  - position
+  - ion_beam.working_distance
+  - ion_beam.beam_shift
+  - ion_beam.detector_contrast
+  - ion_beam.detector_brightness

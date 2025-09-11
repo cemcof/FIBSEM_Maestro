@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slice {{ slice_number }} report</title>
+</head>
+<h1>Slice {{ slice_number }} report</h1>
+<p>Time of report: {{ current_time }}</p>
+<h1> Milling </h1>
+<p> (milling images may be from future slice)</p>
+{% if log_fib is not none %}
+<div style="display: flex; justify-content: space-between;">
+    <img src="{{ fib_fiducial_template_image }}" alt="Fiducial template" style="width: 30%; padding: 5px;">
+</div>
+<div style="display: flex; justify-content: space-between;">
+    <img src="{{ fib_fiducial_image }}" alt="Fiducial image" style="width: 30%; padding: 5px;">
+</div>
+<div>
+    <img src="{{ fib_similarity_map }}" alt="Fiducial heat map" style="width: 30%; padding: 5px;">
+</div>
+<p style="{% if fib_similarity < 0.8 %}color:red{% else %}color:black{% endif %}">
+    Similarity: {{ fib_similarity }}
+</p>
+<p style="{% if fib_driftcorr_x > 0.5e-6 fib_driftcorr_y > 0.5e-6  %}color:red{% else %}color:black{% endif %}">
+    Correction:<br>
+    <ul>
+            <li>X: {{ fib_driftcorr_x * 10e6 }}um</li>
+            <li>Y: {{ fib_driftcorr_y * 10e6 }}um</li>
+    </ul>
+</p>
+<p>
+    Y coordinate: {{ mill_position }}
+</p>
+{% else %}
+<p>None</p>
+{% endif %}
+<h2> Imaging </h2>
+{% if slice_filename is not none %}
+<p>
+    <img src="{{ slice_filename }}" alt="Slice {{slice_number}} image">
+</p>
+<p>Resolution criterion: {{ image_resolution }} </p>
+<% endif %}
+<p>
+Stage position:<br>
+    <ul>
+        <li>X: {{ stage_position.x * 10e6 }}um</li>
+        <li>Y: {{ stage_position.y * 10e6 }}um</li>
+        <li>Z: {{ stage_position.z * 10e6 }}um</li>
+        <li>T: {{ stage_position.tilt }}deg</li>
+    </ul>
+WD: {{ wd*10e6 }}um <br>
+Stigmator: <br>
+    <ul>
+        <li>X: {{ stigmator.x * 10e6 }}um</li>
+        <li>Y: {{ stigmator.y * 10e6 }}um</li>
+    </ul>
+Lens alignment: <br>
+    <ul>
+        <li>X: {{ la.x * 10e6 }}um</li>
+        <li>Y: {{ la.y * 10e6 }}um</li>
+    </ul>
+<h2>Autofunction</h2>
+{% if log_af is not none %}
+<p>Name: {{log_af.name}}</p>
+<div style="display: flex; justify-content: space-between;">
+    <img src="{{ log_af.curve_image_filename }}" alt="Autofunction log" style="width: 50%; padding: 5px;">
+</div>
+{% if hasattr(log_af, 'line_image_filename') %}
+<div style="display: flex; justify-content: space-between;">
+    <img src="{{ log_af.line_image_filename }}" alt="Line autofunction log" style="width: 50%; padding: 5px;">
+</div>
+<p>Value: {{af_value}}</p>
+<p>Value before autofunction: {{af_before}}</p>
+<p>Value after autofunction:  {{af_after}}</p>
+{% endif %}
+{% else %}
+<p>None</p>
+{% endif %}
+<h2>Drift correction</h2>
+<p>
+<img src="{{ template_matching_filename }}"/>
+</p>
+<p>Similarities:</p>
+<ul>
+{% for value in similarities %}
+    <li>{{ value }}</li>
+{% endfor %}
+</ul>
+<p>Total shift X: {{ shift_x }}</p>
+<p>Total shift Y: {{ shift_y }}</p>
+{% else %}
+<p>None</p>
+{% endif %}
+</body>
+</html>
