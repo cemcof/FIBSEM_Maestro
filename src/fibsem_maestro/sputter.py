@@ -35,6 +35,18 @@ class WindowMgr:
     def move_window(self, x, y, w, h):
         win32gui.MoveWindow(self._handle, x, y, w, h, True)
 
+def mouseClickLineIntegration():
+        mouse = Controller()
+
+        mouse.position = (848, 63)
+        mouse.press(Button.left)
+        mouse.release(Button.left)
+        time.sleep(0.5)
+        #mouse.position = (885, 193) #LI 64
+        mouse.position = (885, 209)  # LI 128
+        mouse.press(Button.left)
+        mouse.release(Button.left)
+
 class MouseClick():
     def __init__(self,microscope):
         self.insert_point = (264, 1022)
@@ -209,6 +221,7 @@ import re
 if __name__ == "__main__":
     mouse = Controller()
     print(mouse.position)
-    microscope = SdbMicroscopeClient()
-    microscope.connect('localhost')
-    sputter(1, microscope)
+    #microscope = SdbMicroscopeClient()
+    #microscope.connect('localhost')
+    #sputter(1, microscope)
+    mouseClickLineIntegration()

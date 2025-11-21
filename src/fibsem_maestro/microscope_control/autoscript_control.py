@@ -59,9 +59,9 @@ class AutoscriptMicroscopeControl(MicroscopeControl):
     def position(self, goal: StagePosition):
         """Set stage position"""
         self._microscope.specimen.stage.unlink()
-        self._microscope.specimen.stage.absolute_move(goal.to_stage_position_as())
+        goal_as = goal.to_stage_position_as()
+        self._microscope.specimen.stage.absolute_move(goal_as)
         logging.debug(f"Moving stage to {goal.to_dict()}...")
-
     @property
     def relative_position(self):
         raise AttributeError("Relative position is write-only")
@@ -649,6 +649,28 @@ class ElectronBeam(BeamControl):
         extended_res = f"{extended_res_i_x}x{extended_res_i_y}"
         logging.info(f'Extended resolution set to: {extended_res}')
         self.resolution = [extended_res_i_x, extended_res_i_y]
+
+    @property
+    def scan_rotation(self):
+        """
+        Gets the beam scan rotation.
+
+        Returns:
+            float: The angle in radians
+        """
+        sr = self._beam.scanning.rotation.value
+        logging.debug(f"Getting scanning rotation ({self._modality}): {sr}.")
+        return sr
+
+    @scan_rotation.setter
+    def scan_rotation(self, scanrot : float):
+        """
+        Sets the beam scan rotation.
+
+        Args:
+            scanrot (float): The new scan rotation value
+        """
+        self._beam.scanning.rotation.value = scanrot
 
     @property
     def scanning_area(self):

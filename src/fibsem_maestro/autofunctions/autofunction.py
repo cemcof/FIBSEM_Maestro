@@ -10,6 +10,8 @@ from fibsem_maestro.tools.image_tools import get_stripes
 from fibsem_maestro.logger import Logger
 from fibsem_maestro.settings import Settings
 from fibsem_maestro.microscope_control.microscope import GlobalMicroscope
+from autoscript_sdb_microscope_client.structures import GrabFrameSettings
+
 
 class AutoFunction:
     def __init__(self, auto_function_name: str):
@@ -69,6 +71,7 @@ class AutoFunction:
 
     def set_sweep(self):
         self._sweeping.set_sweep()
+
 
     def _initialize_criteria_dict(self):
         """
@@ -477,6 +480,8 @@ class ManufacturerAutoFunction(AutoFunction):
         self._microscope.electron_beam.dwell_time = dwell_time
 
         if sweeping_var == 'electron_beam.working_distance':
+
+
             if imaging_area.width > 0 and imaging_area.height > 0:
                 settings = RunAutoFocusSettings(reduced_area=imaging_area.to_as())
             else:
@@ -484,15 +489,24 @@ class ManufacturerAutoFunction(AutoFunction):
 
             autofunction_fn = self._microscope._microscope.auto_functions.run_auto_focus
         elif sweeping_var == 'electron_beam.stigmator':
-            settings = RunAutoStigmatorSettings()
+            settings = RunAutoStigmatorSettings(
+                method='OngEtAl',
+                dwell_time=dwell_time,
+                resolution=self.settings('autofunction', self.auto_function_name, 'resolution'),
+                horizontal_field_width = self.settings('autofunction', self.auto_function_name, 'horizontal_field_width'),
+                reduced_area=imaging_area.to_as(),
+                line_integration=line_integration
+            )
             autofunction_fn = self._microscope._microscope.auto_functions.run_auto_stigmator
         elif sweeping_var == 'electron_beam.lens_alignment':
             if imaging_area.width > 0 and imaging_area.height > 0:
                 settings = RunAutoLensAlignmentSettings(reduced_area=imaging_area.to_as(),
                                                         dwell_time=dwell_time,
+                                                        resolution=self.settings('autofunction', self.auto_function_name, 'resolution'),
                                                         line_integration=line_integration)
             else:
                 settings = RunAutoLensAlignmentSettings(dwell_time=dwell_time,
+                                                        resolution=self.settings('autofunction', self.auto_function_name, 'resolution'),
                                                         line_integration=line_integration)
 
             autofunction_fn = self._microscope._microscope.auto_functions.run_auto_lens_alignment
@@ -514,6 +528,7 @@ class ManufacturerAutoFunction(AutoFunction):
             self._microscope._microscope.detector.mode.value = DetectorMode.SECONDARY_ELECTRONS
 
         logging.info(f'Performing manufacturer autofunction - {sweeping_var}')
+
         autofunction_fn(settings)
 
         if sweeping_var == 'electron_beam.source_tilt':

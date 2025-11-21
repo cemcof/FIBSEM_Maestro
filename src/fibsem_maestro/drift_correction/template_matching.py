@@ -144,15 +144,21 @@ class TemplateMatchingDriftCorrection:
         :return: The point object representing the calculated beam shift.
         """
         areas = self.settings('drift_correction', 'driftcorr_areas')
-        imaging_settings = self.settings('image', 'driftcorr')
+        drfitcorr_imaging_settings = self.settings('image', 'driftcorr')
+
+        imaging_settings_name = self.settings('acquisition', 'image_name')
+        imaging_settings = self.settings('image', imaging_settings_name)
 
         if len(areas) == 0:
             logging.error('Template matching enabled but no areas not found. Drift correction disabled')
             return
 
-        self._microscope.apply_beam_settings(imaging_settings)
+        self._microscope.apply_beam_settings(drfitcorr_imaging_settings)
         logging.info(f"Acquiring drifcorr image")
         img = self._microscope.beam.grab_frame()
+
+        # settings back to original
+        self._microscope.apply_beam_settings(imaging_settings)
 
         shift_x = []
         shift_y = []

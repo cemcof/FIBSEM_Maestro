@@ -167,11 +167,11 @@ def create_microscope():
         def apply_beam_settings(self, image_settings):
             if 'bit_depth' in image_settings:
                 self.beam.bit_depth = image_settings['bit_depth']
-            if 'field_of_view' in image_settings and extended_resolution:
+            if 'field_of_view' in image_settings:# and self.electron_beam.extended_resolution:
                 self.beam.horizontal_field_width = image_settings['field_of_view'][0]
                 self.beam.vertical_field_width = image_settings['field_of_view'][1]
             # call pixel size from Beam class, set correct resolution
-            if 'pixel_size' in image_settings and extended_resolution:
+            if 'pixel_size' in image_settings:# and self.electron_beam.extended_resolution:
                 self.beam.pixel_size = float(image_settings['pixel_size'])
             if 'images_line_integration' in image_settings:
                 self.beam.line_integration = image_settings['images_line_integration']
@@ -205,7 +205,7 @@ def create_microscope():
 
             img_name = os.path.join(data_dir, img_name)
             logging.info(f"Acquiring {img_name}.")
-            image = self.grab_frame(img_name)
+            image = self.beam.grab_frame(img_name)
             if slice_number is not None:
                 print(f"Image {slice_number} acquired.")
 

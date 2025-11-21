@@ -7,6 +7,7 @@ from fibsem_maestro.microscope_control.microscope import GlobalMicroscope
 from fibsem_maestro.tools.email_attention import send_email
 from fibsem_maestro.logger import Logger
 from fibsem_maestro.settings import Settings
+from fibsem_maestro.autofunctions.autofunction import StepAutoFunction, LineAutoFunction
 
 
 class AutofunctionControl:
@@ -14,6 +15,8 @@ class AutofunctionControl:
     def __init__(self, masks=None):
         self.settings = Settings()
         self._microscope = GlobalMicroscope().microscope_instance
+
+        self.active_autofunction = None
 
         self._masks = masks
         self.scheduler = []  # queue of autofunctions waiting to execute
@@ -70,9 +73,10 @@ class AutofunctionControl:
         # log active autofunctions
         Logger.log_params['active_af'] = [x.auto_function_name for x in self.scheduler]
 
-        # any AF in scheduler in queue
-        if len(self.scheduler) > 0:
-            af = self.active_autofunction
+        # run scheduled af
+        self.active_autofunction = None
+        for af in self.scheduler.copy():
+            self.active_autofunction = af
 
             print(Fore.GREEN, f'Executed autofunction: {af.auto_function_name}. Attempt no {af.attempt}.')
 
@@ -83,10 +87,24 @@ class AutofunctionControl:
                 self.remove_active_af()
                 af.attempt = 1
             else:
+                # !!!
+                if isinstance(af,LineAutoFunction):
+                    line_integration = self.settings('image', af.auto_function_name, 'images_line_integration')
+                    if line_integration > 1:
+                        from fibsem_maestro.sputter import mouseClickLineIntegration
+
+                        self._microscope._microscope.imaging.set_active_view(1)
+                        self._microscope._microscope.beams.electron_beam.scanning.mode.set_reduced_area()
+                        mouseClickLineIntegration()
+
                 # run af
                 if af(image_for_mask, slice_number=slice_number):  # run af
                     # if finished
                     self.remove_active_af()
+
+            # do not run other af if step-af is running
+            if isinstance(af, StepAutoFunction):
+                break
 
     def remove_active_af(self):
         self.scheduler.pop(0)  # remove the finished af
@@ -103,10 +121,3 @@ class AutofunctionControl:
         af = self.get_autofunction(name)
         af.set_sweep()
         af.test()
-
-    @ property
-    def active_autofunction(self):
-        if len(self.scheduler) > 0:
-            return self.scheduler[0]
-        else:
-            return None
