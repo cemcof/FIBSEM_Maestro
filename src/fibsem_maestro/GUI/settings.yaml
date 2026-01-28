@@ -486,7 +486,7 @@ mask:
   update_mask: true
 microscope:
   beam_shift_tolerance: 5.0e-08
-  ip_address: 147.251.159.93
+  ip_address: 127.0.0.1
   relative_beam_shift_to_stage:
   - 1
   - 1
@@ -527,3 +527,4 @@ milling:
   - ion_beam.detector_contrast
   - ion_beam.detector_brightness
   - ion_beam.scan_rotation
+
